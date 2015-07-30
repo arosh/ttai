@@ -58,14 +58,7 @@ namespace TripleTriad
         public State SetCardCopy(int y, int x, int cardIndex)
         {
 #if DEBUG
-            if (y < 0 || y >= 3)
-            {
-                throw new ArgumentException("y < 0 || y >= 3");
-            }
-            if (x < 0 || x >= 3)
-            {
-                throw new ArgumentException("x < 0 || x >= 3");
-            }
+            checkYX(y, x);
             if (cardIndex < 0 || cardIndex >= 5)
             {
                 throw new ArgumentException("cardIndex < 0 || cardIndex >= 5");
@@ -108,6 +101,39 @@ namespace TripleTriad
         public void FlipCard(int y, int x)
         {
 #if DEBUG
+            checkYX(y, x);
+            if (StagePlayer[y, x] == 0)
+            {
+                throw new ArgumentException("StagePlayer[y, x] == 0");
+            }
+#endif
+            StagePlayer[y, x] *= -1;
+        }
+        public int GetPower(int y, int x, int dir)
+        {
+#if DEBUG
+            checkYX(y, x);
+            if (StageOwner[y, x] == 0)
+            {
+                throw new ArgumentException("StageOwner[y, x] == 0");
+            }
+            if (dir < 0 || dir >= 4)
+            {
+                throw new ArgumentException("dir < 0 || dir >= 4");
+            }
+#endif
+            if (StageOwner[y, x] == 1)
+            {
+                return State.MyDeck[StageCard[y, x], dir];
+            }
+            else
+            {
+                return State.EnDeck[StageCard[y, x], dir];
+            }
+        }
+
+        private static void checkYX(int y, int x)
+        {
             if (y < 0 || y >= 3)
             {
                 throw new ArgumentException("y < 0 || y >= 3");
@@ -116,12 +142,47 @@ namespace TripleTriad
             {
                 throw new ArgumentException("x < 0 || x >= 3");
             }
-            if (StagePlayer[y, x] == 0)
+        }
+
+        public static int[] GetPowers(int player, int cardIndex)
+        {
+#if DEBUG
+            if (player != 1 && player != -1)
             {
-                throw new ArgumentException("StagePlayer[y, x] == 0");
+                throw new ArgumentException("player != 1 && player != -1");
             }
 #endif
-            StagePlayer[y, x] *= -1;
+            int[] ret = new int[4];
+            int[,] deck;
+            if (player == 1)
+            {
+                deck = MyDeck;
+            }
+            else
+            {
+                deck = EnDeck;
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                ret[i] = deck[cardIndex, i];
+            }
+            return ret;
+        }
+
+        public string CreateScreen()
+        {
+            var cw = new ConsoleWriter();
+            for (int y = 0; y < 3; y++)
+            {
+                for (int x = 0; x < 3; x++)
+                {
+                    if (StagePlayer[y, x] != 0)
+                    {
+                        cw.SetCard(StagePlayer[y, x], y, x, GetPowers(StageOwner[y, x], StageCard[y, x]));
+                    }
+                }
+            }
+            return cw.CreateScreen();
         }
     }
 }

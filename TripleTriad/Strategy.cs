@@ -20,7 +20,7 @@ namespace TripleTriad
                     {
                         if (state.StagePlayer[y, x] != 0) continue;
                         var next = state.SetCardCopy(y, x, card);
-                        Rule.Apply(state, y, x);
+                        Rule.Apply(next, y, x);
                         next.FlipTurn();
                         yield return next;
                     }
@@ -61,13 +61,19 @@ namespace TripleTriad
         }
         private int alphaBeta(State state, int depth, int alpha, int beta)
         {
-            if (isEnd(state) || depth == 0) return evaluate(state);
+            if (depth == 0 || isEnd(state)) return evaluate(state);
             foreach (var next in nextState(state))
             {
                 alpha = Math.Max(alpha, -alphaBeta(next, depth - 1, -beta, -alpha));
                 if (alpha >= beta) return alpha;
             }
             return alpha;
+        }
+        public void MiniMax()
+        {
+            var s = new State(-1);
+            int score = alphaBeta(s, 9, int.MinValue, int.MaxValue);
+            Console.WriteLine(score);
         }
     }
 }

@@ -10,6 +10,10 @@ namespace TripleTriad
     {
         static void Main(string[] args)
         {
+            var s = new Strategy();
+            s.Rule = new PlusRule();
+            s.MiniMax();
+            return;
         }
     }
 }
