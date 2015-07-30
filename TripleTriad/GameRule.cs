@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace TripleTriad
 {
@@ -28,13 +27,10 @@ namespace TripleTriad
                 enemyExist = true;
                 int mypower = state.GetPower(y, x, i);
                 int enpower = state.GetPower(ny, nx, (i + 2) % 4);
-                //Debug.WriteLine("({0},{1}) <=> ({2},{3})", y, x, ny, nx);
-                //Debug.WriteLine("mypower = {0}, enpower = {1}", mypower, enpower);
                 if (mypower > enpower)
                 {
                     state.FlipCard(ny, nx);
                 }
-
             }
             if (enemyExist == false) return;
             bool applyPlus = false;
@@ -72,7 +68,6 @@ namespace TripleTriad
                 if (sum[mypower + enpower] < 2) continue;
                 if (state.StagePlayer[ny, nx] == state.NextPlayer * -1)
                 {
-                    Debug.WriteLine("flip ({0},{1})", ny, nx);
                     state.FlipCard(ny, nx);
                 }
                 for (int j = 0; j < 4; j++)
@@ -83,8 +78,6 @@ namespace TripleTriad
                     if (state.StagePlayer[my, mx] != state.NextPlayer * -1) continue;
                     int mypower2 = state.GetPower(ny, nx, j);
                     int enpower2 = state.GetPower(my, mx, (j + 2) % 4);
-                    //Debug.WriteLine("({0},{1}) <=> ({2},{3})", ny, nx, my, mx);
-                    //Debug.WriteLine("mypower2 = {0}, enpower2 = {1}", mypower2, enpower2);
                     if (mypower2 > enpower2)
                     {
                         state.FlipCard(my, mx);
@@ -92,7 +85,5 @@ namespace TripleTriad
                 }
             }
         }
-
-
     }
 }

@@ -20,7 +20,6 @@ namespace TripleTriadTest
             s.StageCard[0, 0].Is(0);
             s.StageOwner[0, 0].Is(1);
         }
-
         [Test]
         public void ひっくり返すだけ()
         {
@@ -40,7 +39,6 @@ namespace TripleTriadTest
             t.StagePlayer[2, 0].Is(-1, message: "StagePlayer[2, 0].Is(-1)");
             t.StageCard[2, 0].Is(1);
         }
-
         [Test]
         public void コンボ発動()
         {

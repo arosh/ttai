@@ -131,7 +131,6 @@ namespace TripleTriad
                 return State.EnDeck[StageCard[y, x], dir];
             }
         }
-
         private static void checkYX(int y, int x)
         {
             if (y < 0 || y >= 3)
@@ -143,7 +142,6 @@ namespace TripleTriad
                 throw new ArgumentException("x < 0 || x >= 3");
             }
         }
-
         public static int[] GetPowers(int player, int cardIndex)
         {
 #if DEBUG
@@ -168,7 +166,6 @@ namespace TripleTriad
             }
             return ret;
         }
-
         public string CreateScreen()
         {
             var cw = new ConsoleWriter();
